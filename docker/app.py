@@ -1,19 +1,20 @@
-from flask import Flask, request, render_template , jsonify
+from flask import Flask, request, render_template
 from redis import Redis, RedisError, StrictRedis
-import json
+import numpy as np
+import joblib
+
+model = joblib.load('ML-Model.pkl')
 
 app = Flask(__name__)
 
 def test_text(text):
-	respone = "success"
 	if text=='':
 		return ''
-	elif 'like' in text:
-		respone = "Result: Positive"
-	elif 'hate' in text:
-		respone = "Result: Negative"
-	else:
-		respone = "Result: Neutral"
+	result = model.predict([text])
+	pos = np.where(result[1][0] == np.amax(result[1][0]))
+	pos = int(pos[0])
+	sentiment_dict = {0:'Positive',1:'Negative',2:'Neutral'}
+	respone = "Result: "+sentiment_dict[pos]
 	return respone
 
 @app.route('/', methods=['GET', 'POST'])

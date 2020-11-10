@@ -1,2 +1,9 @@
 flask
 redis
+pandas
+numpy
+seaborn
+sklearn
+tokenizers==0.9.2
+simpletransformers
+joblib

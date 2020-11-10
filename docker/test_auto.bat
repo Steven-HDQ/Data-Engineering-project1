@@ -1,5 +1,7 @@
 @echo off
 
+echo "Offline"
+
 :check
 wget -q --spider http://localhost:5000
 if errorlevel 1 goto offline
